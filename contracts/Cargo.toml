@@ -1,0 +1,20 @@
+[package]
+name = "eventmesh-contracts"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = "26.0.0-rc.1"
+
+[dev-dependencies]
+soroban-sdk = { version = "26.0.0-rc.1", features = ["testutils"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
