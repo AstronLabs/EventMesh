@@ -176,6 +176,16 @@ impl EventMeshNFT {
     pub fn transfer(_env: Env, _from: Address, _to: Address) -> u32 {
         error::TRANSFER_NOT_ALLOWED
     }
+
+    /// Allow the current admin to transfer admin role to `new_admin`.
+    /// Returns 0 on success or `UNAUTHORIZED` if caller is not current admin.
+    pub fn set_admin(env: Env, new_admin: Address) -> u32 {
+        let current = Self::get_admin(env.clone());
+        // current admin must authorize this change
+        current.require_auth();
+        env.storage().instance().set(&DataKey::Admin, &new_admin);
+        0
+    }
 }
 
 #[cfg(test)]
